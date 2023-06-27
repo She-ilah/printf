@@ -28,6 +28,16 @@ int get_flags(const char *format, int *i)
 			*i = 3;
 			return (1);
 		}
+		else if (fl == '0')
+		{
+			*i = 4;
+			return (1);
+		}
+		else if (fl == '-')
+		{
+			*i = 5;
+			return (1);
+		}
 	}
 	*i = 0; /* if it is invalid flag return 0 as failure */
 	return (0);
