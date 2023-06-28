@@ -47,9 +47,9 @@ va_list argv, char buffer[], int flags, int width, int precision, int size);
 
 int print_char(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
-int print_string(va_list types, char buffer[],
+int print_str(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
-int print_percent(va_list types, char buffer[],
+int print_percentage(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
 
 int print_int(va_list types, char buffer[],
@@ -65,8 +65,8 @@ int printf_hex_num(va_list argv, char buffer[],
 int printf_upper_hex(va_list argv, char buffer[],
 	int flags, int width, int precision, int size);
 
-int printf_main_hex(va_list argv, char direct,
-char buffer[], int flags, char flag_ch, int width, int precision, int size);
+int printf_main_hex(va_list argv, char direct[],
+char buffer[], int flags, char active_flag, int width, int precision, int size);
 
 int printf_nprint(va_list argv, char buffer[],
 	int flags, int width, int precision, int size);
@@ -85,16 +85,16 @@ int printf_strev(va_list argv, char buffer[],
 int printf_rot13(va_list argv, char buffer[],
 	int flags, int width, int precision, int size);
 
-int handle_write_char(char c, char buffer[],
+int write_char(char c, char buffer[],
 	int flags, int width, int precision, int size);
-int write_number(int is_positive, int ind, char buffer[],
+int write_numone(int argv, int ind, char buffer[],
 	int flags, int width, int precision, int size);
-int write_num(int ind, char bff[], int flags, int width, int precision,
-	int length, char padd, char extra_c);
-int write_pointer(char buffer[], int ind, int length,
-	int width, int flags, char padd, char extra_c, int padd_start);
+int write_numtwo(int ind, char buffer[], int flags, int width, int precision,
+	int len, char separator, char addi);
+int write_pointers(char buffer[], int ind, int length,
+	int width, int flags, char separator, char addi, int start);
 
-int write_unsgnd(int is_negative, int ind,
+int write_unsigned_num(int negative, int ind,
 char buffer[],
 	int flags, int width, int precision, int size);
 
@@ -103,7 +103,7 @@ int hex_cat(char, char[], int);
 int is_digit(char);
 
 long int size_to_num(long int num, int size);
-long int size_to_unsign(unsigned long int num, int size);
+long int size_to_unsigned(unsigned long int num, int size);
 
 #endif
 

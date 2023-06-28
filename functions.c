@@ -9,7 +9,7 @@
  * @size: the size
  * Return: the character
  */
-int print_c(__attribute__((unused))va_list types,
+int print_char(__attribute__((unused))va_list types,
 __attribute__((unused))char buffer[],
 __attribute__((unused))int flags, __attribute__((unused))int width,
 __attribute__((unused))int precision, __attribute__((unused))int size)

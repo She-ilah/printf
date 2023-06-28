@@ -8,37 +8,26 @@
  */
 int get_flags(const char *format, int *i)
 {
-	char fl;
+	int j, curr_i;
+	int flags = 0;
+	const char FLAGS_CH[] = {'-', '+', '0', '#', ' ', '\0'};
+	const int FLAGS_ARR[] = {F_MINUS, F_PLUS, F_ZERO, F_HASH, F_SPACE, 0};
 
-	if (format != NULL && format[0] == '%' && format[1] != '\0')
+	for (curr_i = *i + 1; format[curr_i] != '\0'; curr_i++)
 	{
-		fl = format[1];
-		if (fl == '+')
-		{
-			*i = 1;
-			return (1);
-		}
-		else if (fl == ' ')
-		{
-			*i = 2;
-			return (1);
-		}
-		else if (fl == '#')
-		{
-			*i = 3;
-			return (1);
-		}
-		else if (fl == '0')
-		{
-			*i = 4;
-			return (1);
-		}
-		else if (fl == '-')
-		{
-			*i = 5;
-			return (1);
-		}
+		for (j = 0; FLAGS_CH[j] != '\0'; j++)
+			if (format[curr_i] == FLAGS_CH[j])
+			{
+				flags |= FLAGS_ARR[j];
+				break;
+			}
+
+		if (FLAGS_CH[j] == 0)
+			break;
 	}
-	*i = 0; /* if it is invalid flag return 0 as failure */
-	return (0);
+
+	*i = curr_i - 1;
+
+	return (flags);
 }
+

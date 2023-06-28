@@ -45,8 +45,8 @@ int printf_pointers(va_list argv, char buffer[],
 
 	ind++;
 
-	return (write_pointer(buffer, ind, len,
-		width, flags, separator, extra_c, b_separator));
+	return (write_pointers(buffer, ind, len,
+		width, flags, separator, modu, b_separator));
 }
 
 /**
@@ -75,10 +75,10 @@ int printf_nprint(va_list argv, char buffer[],
 
 	while (str[n] != '\0')
 	{
-		if (is_printable(str[n]))
+		if (print_chars(str[n]))
 			buffer[n + start] = str[n];
 		else
-			start += append_hexa_code(str[n], buffer, n + start);
+			start += hex_cat(str[n], buffer, n + start);
 
 		n++;
 	}

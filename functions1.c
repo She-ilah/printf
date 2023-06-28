@@ -16,7 +16,7 @@ int printf_unsigned_num(va_list argv, char buffer[],
 	int i = BUFF_SIZE - 2;
 	unsigned long int len = va_arg(argv, unsigned long int);
 
-	len = convert_size_unsgnd(len, size);
+	len = size_to_unsigned(len, size);
 
 	if (len == 0)
 		buffer[i--] = '0';
@@ -31,7 +31,7 @@ int printf_unsigned_num(va_list argv, char buffer[],
 
 	i++;
 
-	return (write_unsgnd(0, i, buffer, flags, width, precision, size));
+	return (write_unsigned_num(0, i, buffer, flags, width, precision, size));
 }
 
 /**
@@ -54,7 +54,7 @@ int printf_oct_num(va_list argv, char buffer[],
 
 	UNUSED(width);
 
-	len = convert_size_unsgnd(len, size);
+	len = size_to_unsigned(len, size);
 
 	if (len == 0)
 		buffer[i--] = '0';
@@ -72,7 +72,7 @@ int printf_oct_num(va_list argv, char buffer[],
 
 	i++;
 
-	return (write_unsgnd(0, i, buffer, flags, width, precision, size));
+	return (write_unsigned_num(0, i, buffer, flags, width, precision, size));
 }
 
 /**
@@ -121,7 +121,7 @@ int printf_upper_hex(va_list argv, char buffer[],
  * @size: Size specifier
  * Return: Int, amount of chars to buffer.
  */
-int print_hexa(va_list argv, char direct[], char buffer[],
+int printf_main_hex(va_list argv, char direct[], char buffer[],
 	int flags, char active_flag, int width, int precision, int size)
 {
 	int i = BUFF_SIZE - 2;
@@ -130,7 +130,7 @@ int print_hexa(va_list argv, char direct[], char buffer[],
 
 	UNUSED(width);
 
-	len = convert_size_unsgnd(len, size);
+	len = size_to_unsigned(len, size);
 
 	if (len == 0)
 		buffer[i--] = '0';
@@ -151,6 +151,6 @@ int print_hexa(va_list argv, char direct[], char buffer[],
 
 	i++;
 
-	return (write_unsgnd(0, i, buffer, flags, width, precision, size));
+	return (write_unsigned_num(0, i, buffer, flags, width, precision, size));
 }
 

@@ -16,7 +16,7 @@ int printf_type(const char *fmt, int *ind, va_list argv, char buffer[],
 {
 	int n, len = 0, printf_chars = -1;
 	fmt_t printf_array[] = {
-		{'c', print_char}, {'s', print_string}, {'%', print_percent},
+		{'c', print_char}, {'s', print_str}, {'%', print_percentage},
 		{'i', print_int}, {'d', print_int}, {'b', print_binary},
 		{'u', printf_unsigned_num}, {'o', printf_oct_num}, {'x', printf_hex_num},
 		{'X', printf_upper_hex}, {'p', printf_pointers}, {'S', printf_nprint},
