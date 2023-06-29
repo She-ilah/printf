@@ -3,7 +3,7 @@
 /**
  * printf_unsigned_num - Function prints an unsigned number.
  * @argv: Argumnet vectors - shows the arguments.
- * @buffer: Buffer 
+ * @buffer: Buffer
  * @flags: flag specifier
  * @width: Width specifier
  * @precision: Precision specifier
@@ -16,7 +16,7 @@ int printf_unsigned_num(va_list argv, char buffer[],
 	int i = BUFF_SIZE - 2;
 	unsigned long int len = va_arg(argv, unsigned long int);
 
-	len = size_to_unsigned(len, size);
+	len = size_to_unsigned_int(len, size);
 
 	if (len == 0)
 		buffer[i--] = '0';
@@ -54,7 +54,7 @@ int printf_oct_num(va_list argv, char buffer[],
 
 	UNUSED(width);
 
-	len = size_to_unsigned(len, size);
+	len = size_to_unsigned_int(len, size);
 
 	if (len == 0)
 		buffer[i--] = '0';
@@ -93,7 +93,7 @@ int printf_hex_num(va_list argv, char buffer[],
 }
 
 /**
- * printf_upper _hex - Function writes an unsigned number in upper hexadecimal notation.
+ * printf_upper _hex - Function wirites an unsigned num in upper hexadecimal
  * @argv: argument vector
  * @buffer: Buffer main display
  * @flags: flag specifier
@@ -110,7 +110,7 @@ int printf_upper_hex(va_list argv, char buffer[],
 }
 
 /**
- * printf_main_hex - Function writes a hexadecimal number in either lower or upper.
+ * printf_main_hex - Function writes a hexadecimal number in  lower or upper.
  * @argv: argument vector
  * @direct: Array of values to map the number to
  * @buffer: Buffer main display
@@ -130,7 +130,7 @@ int printf_main_hex(va_list argv, char direct[], char buffer[],
 
 	UNUSED(width);
 
-	len = size_to_unsigned(len, size);
+	len = size_to_unsigned_int(len, size);
 
 	if (len == 0)
 		buffer[i--] = '0';

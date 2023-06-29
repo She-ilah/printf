@@ -66,7 +66,8 @@ int printf_upper_hex(va_list argv, char buffer[],
 	int flags, int width, int precision, int size);
 
 int printf_main_hex(va_list argv, char direct[],
-char buffer[], int flags, char active_flag, int width, int precision, int size);
+char buffer[], int flags, char active_flag, int width, int precision,
+int size);
 
 int printf_nprint(va_list argv, char buffer[],
 	int flags, int width, int precision, int size);
