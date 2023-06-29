@@ -9,31 +9,34 @@
  */
 int get_precision(const char *format, int *i, va_list list)
 {
-	int p;
+	int current_int = *i + 1;
+	int p = -1;/* the default prescision value*/
 
-	p = -1;/* the default prescision value*/
-	(*i)++;/*this will make it move past the % char*/
+	if (format[current_int] != '.')
+		return (p);
 	/* check if the character is dot or asterisk*/
-	if (format[*i] == '.')
-	{
-		(*i)++; /*move past the dot*/
 
-		/*to check if the next character is digit*/
-		if (format[*i] >= '0' && format[*i] <= '9')
-		{
-			/* Extracting the precision value */
-			p = 0;
-			while (format[*i] >= '0' && format[*i] <= '9')
-			{
-				p = p * 10 + (format[*i] - '0');
-				(*i)++;
-			}
-		}
-	}
-	else if (format[*i] == '*')
+	p = 0;
+	/*to check if the next character is digit*/
+	for (current_int += 1; format[current_int] != '\0'; current_int++)
 	{
-		(*i)++;
-		p = va_arg(list, int);
+		 /* Extracting the precision value */
+		if (is_digit(format[current_int]))
+		{
+			p *= 10;
+			p += format[current_int] - '0';
+		}
+		else if (format[current_int] == '*')
+		{
+			current_int++;
+			p = va_arg(list, int);
+			break;
+		}
+		else
+			break;
 	}
+	*i = current_int - 1;
+
 	return (p);
 }
+

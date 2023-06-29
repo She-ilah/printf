@@ -8,27 +8,19 @@
  */
 int get_size(const char *format, int *i)
 {
-	int s;
-	int size;
-
-	s = *i + 1;
-	size = 0;
+	int s = *i + 1;
+	int size = 0;
 
 	if (format[s] == 'l')
-	{
-		size = 4;
-	}
+		size = S_LONG;
 	else if (format[s] == 'h')
-	{
-		size = 2;
-	}
+		size = S_SHORT;
+
 	if (size == 0)
-	{
 		*i = s - 1;
-	}
 	else
-	{
 		*i = s;
-	}
+
 	return (size);
 }
+

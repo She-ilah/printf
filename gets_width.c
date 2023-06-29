@@ -7,25 +7,32 @@
  * @list: the list
  * Return: width
  */
-int get_width(const char *format, int *i, __attribute__((unused))va_list list)
+int get_width(const char *format, int *i, va_list list)
 {
-	int wid, b;
-
-	wid = 0;
-	b = *i;/*store them in a position*/
-
-	b++;/* move to the next character */
-
-	/*check if the character is a number */
-	if (format[b] >= '0' && format[b] <= '9')
+	int b;
+	int wid = 0;
+	
+	/*store them in a position*/
+	/* move to the next character */
+	for (b = *i + 1; format[b] != '\0'; b++)
 	{
 		/* extracting the width by parsing the num */
-		while (format[b] >= '0' && format[b] <= '9')
+		if (is_digit(format[b]))
 		{
-			wid = wid * 10 + (format[b] - '0');
-			b++;
+			wid *= 10;
+			wid += format[b] - '0';
 		}
+		else if (format[b] == '*')
+		{
+			b++;
+			wid = va_arg(list, int);
+			break;
+		}
+		else
+			break;
 	}
-	*i = b;/* updating the width */
+	*i = b - 1;/* updating the width */
+
 	return (wid);
 }
+

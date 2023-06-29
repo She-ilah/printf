@@ -9,15 +9,13 @@
  * @size: the size
  * Return: the character
  */
-int print_char(__attribute__((unused))va_list types,
-__attribute__((unused))char buffer[],
-__attribute__((unused))int flags, __attribute__((unused))int width,
-__attribute__((unused))int precision, __attribute__((unused))int size)
+int print_char(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
 	char c;
 
 	c = va_arg(types, int);
-	return (write(1, &c, 1));
+	return (write_char(c, buffer, flags, width, precision, size));
 }
 /**
  * print_str - a function that print string
@@ -29,27 +27,51 @@ __attribute__((unused))int precision, __attribute__((unused))int size)
  * @size: the size
  * Return: the string
  */
-int print_str(__attribute__((unused))va_list types,
-__attribute__((unused))char buffer[],
-__attribute((unused))int flags, __attribute((unused))int width,
-__attribute((unused))int precision, __attribute((unused))int size)
+int print_str(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
-	const char *p;
-	int len;
-	const char *str;
+	int len = 0, i;
+	char *str = va_arg(types, char *);
 
-	len = 0;
-	str = (" ");
-	p = str;
-
-	while (*p != '\0')
+	UNUSED(buffer);
+	UNUSED(flags);
+	UNUSED(width);
+	UNUSED(precision);
+	UNUSED(size);
+	if (str == NULL)
 	{
-		len++;
-		p++;
+		str = "(null)";
+		if (precision >= 6)
+			str = "      ";
 	}
-	write(STDOUT_FILENO, str, len);
-	return (len);
+
+	while (str[len] != '\0')
+		len++;
+
+	if (precision >= 0 && precision < len)
+		len = precision;
+
+	if (width > len)
+	{
+		if (flags & F_MINUS)
+		{
+			write(1, &str[0], len);
+			for (i = width - len; i > 0; i--)
+				write(1, " ", 1);
+			return (width);
+		}
+		else
+		{
+			for (i = width - len; i > 0; i--)
+				write(1, " ", 1);
+			write(1, &str[0], len);
+			return (width);
+		}
+	}
+
+	return (write(1, str, len));
 }
+
 /**
  * print_percentage - a function that print percentage
  * @types: the arguments types
@@ -60,17 +82,17 @@ __attribute((unused))int precision, __attribute((unused))int size)
  * @size: the size
  * Return: the percent sign
  */
-int print_percentage(__attribute__((unused))va_list types,
-__attribute__((unused))char buffer[], __attribute__((unused))int flags,
-__attribute__((unused))int width, __attribute__((unused))int precision,
-__attribute((unused))int size)
+int print_percentage(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
-	char sign;
+	UNUSED(types);
+	UNUSED(buffer);
+	UNUSED(flags);
+	UNUSED(width);
+	UNUSED(precision);
+	UNUSED(size);
 
-	sign = '%';
-
-	return (write(1, &sign, 1));
-	return (0);
+	return (write(1, "%%", 1));
 }
 /**
  * print_int - a functions that handle conversion specifier
@@ -82,50 +104,40 @@ __attribute((unused))int size)
  * @size: the size
  * Return: succees
  */
-int print_int(__attribute__((unused))va_list types,
-char buffer[], __attribute__((unused))int flags,
-__attribute__((unused))int width,
-__attribute__((unused))int precision, __attribute__((unused))int size)
+int print_int(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
-	int value;
-	int len;
-	int i;
-	int start;
-	int end;
-	char temp;
+	int i = BUFF_SIZE - 2;
+	int neg = 0;
+	long int n = va_arg(types, long int);
+	unsigned long int end;
 
-	len = 0;
-	value = 0;
-	start = 0;
-	i = 0;
+	 /* calculate the lenght and convert it to string */
+	n = size_to_num(n, size);
 
-	if (value < 0)
+	if (n == 0)
+		buffer[i--] = '0';
+
+	buffer[BUFF_SIZE - 1] = '\0';
+	end = (unsigned long int)n;
+
+	if (n < 0)
 	{
-		buffer[i++] = ('-');
-		value = (-value);/* convert negative to positive*/
-		len++;
+		end = (unsigned long int)((-1) * n);
+		/* convert negative to positive*/
+		neg = 1;
 	}
-	/* calculate the lenght and convert it to string */
-	do {
-		buffer[i++] = '0' + (value % 10);
-		value /= 10;
-		len++;
-	} while (value != 0);
-	end = i - 1;
-
-	while (start < end)
+	while (end > 0)
 	{
-		temp = buffer[start];
-		buffer[start] = buffer[end];
-		buffer[end] = temp;
-		start++;
-		end--;
+		buffer[i--] = (end % 10) + '0';
+		end /= 10;
 	}
-	buffer[i] = '\0';/* null terminate the string */
-	return (len);
+	i++;
+
+	return (write_numone(neg, i, buffer, flags, width, precision, size));
 }
-/**
- * print_binary - a function that print binary
+
+ /* print_binary - a function that print binary
  * @types:the arguements types
  * @buffer: the temporary storage
  * @flags: the flags
@@ -134,47 +146,39 @@ __attribute__((unused))int precision, __attribute__((unused))int size)
  * @size: the size
  * Return: the conversion
  */
-int print_binary(__attribute__((unused))va_list types, char buffer[],
-__attribute__((unused))int flags, __attribute__((unused))int width,
-__attribute__((unused))int precision, __attribute__((unused))int size)
+int print_binary(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
-	int i = 0;
-	int temp = 0;
-	int isneg = 0;
-	int start;
-	int end;
-	char tchar;
-	int num = 0;
+	unsigned int n, m, i, end;
+	unsigned int a[32];
+	int check;
 
-	/* check if the number is negative */
-	if (num < 0)
+	UNUSED(buffer);
+	UNUSED(flags);
+	UNUSED(width);
+	UNUSED(precision);
+	UNUSED(size);
+
+	n = va_arg(types, unsigned int);
+	m = 2147483648;
+	a[0] = n / m;
+	 /* convert the number to binary */
+	for (i = 1; i < 32; i++)
 	{
-		isneg = 1;
-		temp = (-temp);
+		m /= 2;
+		a[i] = (n / m) % 2;
 	}
-	/* convert the number to binary */
-	do {
-		buffer[i++] = (temp & 1) + '0';
-		/*^ extract the least significant bit and convert it to char */
-		temp >>= 1;
-		/*^ right the number by 1 */
-	} while (temp != 0);
-	/* add a null terminator at the end of the buffer */
-	buffer[i] = '\0';
-	/* reverse the buffer if the number is negative */
-	if (isneg)
+	for (i = 0, end = 0, check = 0; i < 32; i++)
 	{
-		start = 0;
-		end = i - 1;
-
-		while (start < end)
+		end += a[i];
+		 /* extract the least significant bit and convert it to char */
+		if (end || i == 31)
 		{
-			tchar = buffer[start];
-			buffer[start] = buffer[end];
-			buffer[end] = tchar;
-			start++;
-			end--;
+			char z = '0' + a[i];
+
+			write(1, &z, 1);
+			check++;
 		}
 	}
-	return (0);
+	return (check);
 }
