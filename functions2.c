@@ -8,7 +8,7 @@
  * @width: width specifier
  * @precision: Precision specifier
  * @size: Size specifier
- * Return: Int, chars printed on the buffer. 
+ * Return: Int, chars printed on the buffer.
  */
 int printf_pointers(va_list argv, char buffer[],
 	int flags, int width, int precision, int size)

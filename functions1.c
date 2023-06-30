@@ -93,7 +93,7 @@ int printf_hex_num(va_list argv, char buffer[],
 }
 
 /**
- * printf_upper _hex - Function writes an unsigned number in upper hexadecimal notation.
+ * printf_upper _hex - Function wirites an unsigned num in upper hexadecimal
  * @argv: argument vector
  * @buffer: Buffer main display
  * @flags: flag specifier
@@ -110,7 +110,7 @@ int printf_upper_hex(va_list argv, char buffer[],
 }
 
 /**
- * printf_main_hex - Function writes a hexadecimal number in either lower or upper.
+ * printf_main_hex - Function writes a hexadecimal number in  lower or upper.
  * @argv: argument vector
  * @direct: Array of values to map the number to
  * @buffer: Buffer main display

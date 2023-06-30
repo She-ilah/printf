@@ -137,7 +137,8 @@ int print_int(va_list types, char buffer[],
 	return (write_numone(neg, i, buffer, flags, width, precision, size));
 }
 
- /* print_binary - a function that print binary
+/**
+ * print_binary - a function that print binary
  * @types:the arguements types
  * @buffer: the temporary storage
  * @flags: the flags

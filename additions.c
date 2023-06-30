@@ -66,7 +66,11 @@ long int size_to_num(long int num, int size)
 }
 
 /**
- * size_to_unsigned - Function allocates an unsigned num to specified size
+<<<<<<< HEAD
+ * size_to_unsigned - Function allocates an unsigned numb to the specified size
+=======
+ * size_to_unsigned - Function allocates an unsigned numb to the specified size
+>>>>>>> f68afe595579e8f421acd71bb1d9959b589ad842
  * @num: Number to be allocated
  * @size: indicator
  * Return: Allocated value to num.
