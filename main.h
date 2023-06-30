@@ -104,7 +104,7 @@ int hex_cat(char, char[], int);
 int is_digit(char);
 
 long int size_to_num(long int num, int size);
-long int size_to_unsigned(unsigned long int num, int size);
+long int size_to_unsign(unsigned long int num, int size);
 
 #endif
 
