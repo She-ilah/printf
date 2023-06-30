@@ -23,7 +23,7 @@ int print_chars(char a)
 int hex_cat(char ascii, char buffer[], int index)
 {
 	char direct[] = "0123456789ABCDEF";
-	
+
 	if (ascii < 0)
 		ascii *= -1;
 
@@ -66,7 +66,7 @@ long int size_to_num(long int num, int size)
 }
 
 /**
- * size_to_unsigned - Function allocates an unsigned number to the specified size
+ * size_to_unsigned - Function allocates an unsigned num to specified size
  * @num: Number to be allocated
  * @size: indicator
  * Return: Allocated value to num.

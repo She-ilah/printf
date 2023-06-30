@@ -3,7 +3,7 @@
 /**
  * printf_unsigned_num - Function prints an unsigned number.
  * @argv: Argumnet vectors - shows the arguments.
- * @buffer: Buffer 
+ * @buffer: Buffer
  * @flags: flag specifier
  * @width: Width specifier
  * @precision: Precision specifier
