@@ -16,7 +16,7 @@ int printf_unsigned_num(va_list argv, char buffer[],
 	int i = BUFF_SIZE - 2;
 	unsigned long int len = va_arg(argv, unsigned long int);
 
-	len = size_to_unsigned(len, size);
+	len = size_to_unsign(len, size);
 
 	if (len == 0)
 		buffer[i--] = '0';
@@ -54,7 +54,7 @@ int printf_oct_num(va_list argv, char buffer[],
 
 	UNUSED(width);
 
-	len = size_to_unsigned(len, size);
+	len = size_to_unsign(len, size);
 
 	if (len == 0)
 		buffer[i--] = '0';
@@ -130,7 +130,7 @@ int printf_main_hex(va_list argv, char direct[], char buffer[],
 
 	UNUSED(width);
 
-	len = size_to_unsigned(len, size);
+	len = size_to_unsign(len, size);
 
 	if (len == 0)
 		buffer[i--] = '0';
